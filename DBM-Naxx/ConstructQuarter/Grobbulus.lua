@@ -24,6 +24,12 @@ local timerInjection	= mod:NewTargetTimer(10, 28169)
 local timerCloud		= mod:NewNextTimer(15, 28240)
 local enrageTimer		= mod:NewBerserkTimer(720)
 
+if (mod:IsDifficulty("normal10") or mod:IsDifficulty("heroic10")) then --10 man
+	enrageTimer	= mod:NewBerserkTimer(360)
+else -- 25 man
+	enrageTimer	= mod:NewBerserkTimer(480)
+end
+
 mod:AddBoolOption("SetIconOnInjectionTarget", true)
 
 local mutateIcons = {}
