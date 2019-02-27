@@ -263,6 +263,7 @@ L:SetGeneralLocalization({
 L:SetOptionLocalization({
 	TimerWave			= "Show timer for next wave",
 	TimerPhase2			= "Show timer for Phase 2",
+	TimerDoor			= "Show timer for door opening",
 	WarningWaveSoon		= "Show pre-warning for wave",
 	WarningWaveSpawned	= "Show warning for wave spawned",
 	WarningRiderDown	= "Show warning when an Unrelenting Rider dies",
@@ -272,6 +273,7 @@ L:SetOptionLocalization({
 L:SetTimerLocalization({
 	TimerWave	= "Wave %d",
 	TimerPhase2	= "Phase 2"
+	TimerDoor	= "Door Opens"
 })
 
 L:SetWarningLocalization({
