@@ -19,7 +19,7 @@ local enrageTimer	= mod:NewBerserkTimer(360)
 local timerAchieve	= mod:NewAchievementTimer(180, 1857, "TimerSpeedKill")
 
 --omega changes
-if (mod:IsDifficulty("normal10") or mod:IsDifficulty("heroic10")) then --10 man
+if (mod:IsDifficulty("normal10", "heroic10")) then --10 man
 	enrageTimer	= mod:NewBerserkTimer(300)
 else -- 25 man
 	enrageTimer	= mod:NewBerserkTimer(270)
