@@ -8,4 +8,6 @@ The only files you need are the folders named DBM-*.
 -You Do not need .vs, .gitignore, README.txt in your addons folder.
 
 Updates:  
-  . Added timer for gothiks door opening
+  . Added timer for gothiks door opening  
+  . Loatheb inevitable doom timer fixed  
+  . 

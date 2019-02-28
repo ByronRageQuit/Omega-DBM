@@ -30,6 +30,12 @@ mod:AddBoolOption("SporeDamageAlert", false)
 local doomCounter	= 0
 local sporeTimer	= 36
 
+local doomThreshold = 6
+
+if mod:IsDifficulty("heroic25", "normal25") then --omega 25 man timer is 4 mins, (threshold 5)
+	doomThreshold = 5
+end
+
 function mod:OnCombatStart(delay)
 	doomCounter = 0
 	if mod:IsDifficulty("heroic25") then
@@ -37,6 +43,11 @@ function mod:OnCombatStart(delay)
 	else
 		sporeTimer = 36
 	end
+
+	if mod:IsDifficulty("heroic25", "normal25") then --omega 25 man timer is 4 mins, (threshold 5) -- 10 man is threshold 6. 
+		doomThreshold = 5
+	end
+
 	timerSpore:Start(sporeTimer - delay)
 	warnSporeSoon:Schedule(sporeTimer - 5 - delay)
 	timerDoom:Start(120 - delay, doomCounter + 1)
@@ -50,7 +61,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args:IsSpellID(29204, 55052) then  -- Inevitable Doom
 		doomCounter = doomCounter + 1
 		local timer = 30
-		if doomCounter >= 7 then
+		if doomCounter >= doomThreshold then
 			if doomCounter % 2 == 0 then timer = 17
 			else timer = 12 end
 		end
