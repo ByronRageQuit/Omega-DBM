@@ -272,7 +272,7 @@ L:SetOptionLocalization({
 
 L:SetTimerLocalization({
 	TimerWave	= "Wave %d",
-	TimerPhase2	= "Phase 2"
+	TimerPhase2	= "Phase 2",
 	TimerDoor	= "Door Opens"
 })
 
