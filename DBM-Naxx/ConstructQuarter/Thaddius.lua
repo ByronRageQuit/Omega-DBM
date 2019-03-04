@@ -110,6 +110,15 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 			timerThrow:Cancel()
 			warnThrowSoon:Cancel()
 			DBM.BossHealth:Hide()
+
+			--omega changes
+			if (mod:IsDifficulty("normal10", "heroic10")) then --10 man
+				enrageTimer	= mod:NewBerserkTimer(305)
+			else -- 25 man
+				enrageTimer	= mod:NewBerserkTimer(245)
+			end
+			--end
+
 			enrageTimer:Start()
 		end
 	end
