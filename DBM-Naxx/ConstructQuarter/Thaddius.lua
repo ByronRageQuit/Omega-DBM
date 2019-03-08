@@ -11,7 +11,8 @@ mod:EnableModel()
 
 mod:RegisterEvents(
 	"SPELL_CAST_START",
-	"CHAT_MSG_RAID_BOSS_EMOTE",
+	"CHAT_MSG_RAID_BOSS_EMOTE", --on omega he yells
+	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_AURA"
 )
 
@@ -47,6 +48,14 @@ function mod:OnCombatStart(delay)
 	self:ScheduleMethod(20.6 - delay, "TankThrow")
 	timerThrow:Start(-delay)
 	warnThrowSoon:Schedule(17.6 - delay)
+
+	--omega changes
+	if (mod:IsDifficulty("normal10", "heroic10")) then --10 man
+		enrageTimer	= mod:NewBerserkTimer(305)
+	else -- 25 man
+		enrageTimer	= mod:NewBerserkTimer(245)
+	end
+	--end
 end
 
 local lastShift = 0
@@ -111,18 +120,12 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 			warnThrowSoon:Cancel()
 			DBM.BossHealth:Hide()
 
-			--omega changes
-			if (mod:IsDifficulty("normal10", "heroic10")) then --10 man
-				enrageTimer	= mod:NewBerserkTimer(305)
-			else -- 25 man
-				enrageTimer	= mod:NewBerserkTimer(245)
-			end
-			--end
-
 			enrageTimer:Start()
 		end
 	end
 end
+
+mod.CHAT_MSG_MONSTER_YELL = mod.CHAT_MSG_MONSTER_EMOTE
 
 function mod:TankThrow()
 	if not self:IsInCombat() or phase2 then
