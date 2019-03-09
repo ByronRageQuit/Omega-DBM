@@ -11,7 +11,7 @@ mod:EnableModel()
 
 mod:RegisterEvents(
 	"SPELL_CAST_START",
-	"CHAT_MSG_RAID_BOSS_EMOTE", --on omega he yells
+	--"CHAT_MSG_RAID_BOSS_EMOTE", --on omega he yells
 	"CHAT_MSG_MONSTER_YELL",
 	"UNIT_AURA"
 )
@@ -25,7 +25,7 @@ local warnThrowSoon			= mod:NewSoonAnnounce(28338, 1)
 local enrageTimer			= mod:NewBerserkTimer(365)
 local timerNextShift		= mod:NewNextTimer(30, 28089)
 local timerShiftCast		= mod:NewCastTimer(3, 28089)
-local timerThrow			= mod:NewNextTimer(20.6, 28338)
+local timerThrow			= mod:NewNextTimer(25, 28338)
 
 mod:AddBoolOption("ArrowsEnabled", false, "Arrows")
 mod:AddBoolOption("ArrowsRightLeft", false, "Arrows")
@@ -45,15 +45,15 @@ function mod:OnCombatStart(delay)
 	phase2 = false
 	currentCharge = nil
 	down = 0
-	self:ScheduleMethod(20.6 - delay, "TankThrow")
+	self:ScheduleMethod(25 - delay, "TankThrow")
 	timerThrow:Start(-delay)
-	warnThrowSoon:Schedule(17.6 - delay)
+	warnThrowSoon:Schedule(22 - delay)
 
 	--omega changes
 	if (mod:IsDifficulty("normal10", "heroic10")) then --10 man
-		enrageTimer	= mod:NewBerserkTimer(305)
+		enrageTimer	= mod:NewBerserkTimer(300)
 	else -- 25 man
-		enrageTimer	= mod:NewBerserkTimer(245)
+		enrageTimer	= mod:NewBerserkTimer(240)
 	end
 	--end
 end
@@ -111,8 +111,23 @@ function mod:UNIT_AURA(elapsed)
 	end
 end
 
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
-	if msg == L.Emote or msg == L.Emote2 then
+--function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
+--	if msg == L.Emote or msg == L.Emote2 then
+--		down = down + 1
+--		if down >= 2 then
+--			self:UnscheduleMethod("TankThrow")
+--			timerThrow:Cancel()
+--			warnThrowSoon:Cancel()
+--			DBM.BossHealth:Hide()
+--
+--			enrageTimer:Start()
+--		end
+--	end
+--end
+
+--mod.CHAT_MSG_MONSTER_YELL = mod.CHAT_MSG_MONSTER_EMOTE
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if msg == L.Death1 or msg == L.Death2 then
 		down = down + 1
 		if down >= 2 then
 			self:UnscheduleMethod("TankThrow")
@@ -120,12 +135,14 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 			warnThrowSoon:Cancel()
 			DBM.BossHealth:Hide()
 
-			enrageTimer:Start()
+			self:ScheduleMethod(12, "EnrageTimerStart")
 		end
 	end
 end
 
-mod.CHAT_MSG_MONSTER_YELL = mod.CHAT_MSG_MONSTER_EMOTE
+function mod:EnrageTimerStart()
+	enrageTimer:Start()
+end
 
 function mod:TankThrow()
 	if not self:IsInCombat() or phase2 then
@@ -133,8 +150,8 @@ function mod:TankThrow()
 		return
 	end
 	timerThrow:Start()
-	warnThrowSoon:Schedule(17.6)
-	self:ScheduleMethod(20.6, "TankThrow")
+	warnThrowSoon:Schedule(22)
+	self:ScheduleMethod(25, "TankThrow")
 end
 
 local function arrowOnUpdate(self, elapsed)
