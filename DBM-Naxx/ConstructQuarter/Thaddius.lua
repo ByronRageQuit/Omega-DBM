@@ -50,10 +50,10 @@ function mod:OnCombatStart(delay)
 	warnThrowSoon:Schedule(22 - delay)
 
 	--omega changes
-	if (mod:IsDifficulty("normal10", "heroic10")) then --10 man
-		enrageTimer	= mod:NewBerserkTimer(300)
+	if (mod:IsDifficulty("normal10", "heroic10")) then --10 man (minus 15 seconds for waiting on polarity swap)
+		enrageTimer	= mod:NewBerserkTimer(285)
 	else -- 25 man
-		enrageTimer	= mod:NewBerserkTimer(240)
+		enrageTimer	= mod:NewBerserkTimer(225)
 	end
 	--end
 end
@@ -61,6 +61,11 @@ end
 local lastShift = 0
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(28089) then
+		
+		if not phase2 then
+			enrageTimer:Start()
+		end
+
 		phase2 = true
 		timerNextShift:Start()
 		timerShiftCast:Start()
@@ -135,7 +140,7 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 			warnThrowSoon:Cancel()
 			DBM.BossHealth:Hide()
 
-			self:ScheduleMethod(12, "EnrageTimerStart")
+			--self:ScheduleMethod(12, "EnrageTimerStart")
 		end
 	end
 end
