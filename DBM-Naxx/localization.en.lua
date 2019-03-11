@@ -306,15 +306,19 @@ L:SetGeneralLocalization({
 })
 
 L:SetOptionLocalization({
+	TimerMeteor					= "Show timer for Thane Korth'azz meteor",
+	WarningMeteorSoon			= "Show pre-warning for Thane Korth'azz meteor",
 	WarningMarkSoon				= "Show pre-warning for Mark",
 	WarningMarkNow				= "Show warning for Mark",
 	SpecialWarningMarkOnPlayer	= "Show special warning when you are affected by more than 4 marks"
 })
 
 L:SetTimerLocalization({
+	TimerMeteor					= "Next Meteor"
 })
 
 L:SetWarningLocalization({
+	WarningMeteorSoon			= "Meteor in 3 seconds",
 	WarningMarkSoon				= "Mark %d in 3 seconds",
 	WarningMarkNow				= "Mark %d",
 	SpecialWarningMarkOnPlayer	= "%s: %s"

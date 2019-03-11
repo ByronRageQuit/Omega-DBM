@@ -10,13 +10,17 @@ mod:EnableModel()
 
 mod:RegisterEvents(
 	"SPELL_CAST_SUCCESS",
+	"SPELL_CAST_START",
 	"SPELL_AURA_APPLIED_DOSE"
 )
 
+local warnMeteorSoon		= mod:NewAnnounce("WarningMeteorSoon", 1, 24340)
 local warnMarkSoon			= mod:NewAnnounce("WarningMarkSoon", 1, 28835, false)
 local warnMarkNow			= mod:NewAnnounce("WarningMarkNow", 2, 28835)
 
 local specWarnMarkOnPlayer	= mod:NewSpecialWarning("SpecialWarningMarkOnPlayer", nil, false, true)
+
+local timerMeteor			= mod:NewTimer(15, "TimerMetor", 24340)
 
 mod:AddBoolOption("HealthFrame", true)
 
@@ -31,6 +35,10 @@ local markCounter = 0
 
 function mod:OnCombatStart(delay)
 	markCounter = 0
+
+	--TODO: Meteor Timer start here
+	timerMeteor:Show(20)
+	warnMeteorSoon:Schedule(17)
 end
 
 local markSpam = 0
@@ -49,3 +57,9 @@ function mod:SPELL_AURA_APPLIED_DOSE(args)
 	end
 end
 
+function mod:SPELL_CAST_START(args)
+	if args:IsSpellID(28884, 57467, 24340) then --thane's meteor
+		timerMeteor:Show(15)
+		warnMeteorSoon:Schedule(12)
+	end
+end
