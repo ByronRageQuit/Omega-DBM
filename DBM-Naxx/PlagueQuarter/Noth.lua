@@ -44,6 +44,13 @@ function mod:BackInRoom(delay)
 	elseif phase == 2 then timer = 110 - delay
 	elseif phase == 3 then timer = 180 - delay
 	else return end
+
+	--omega block
+	if phase == 1 then timer = 110 - delay
+	elseif phase == 2 then timer = 180 - delay
+	elseif phase == 3 then timer = 180 - delay
+	else return end
+
 	timerTeleport:Show(timer)
 	warnTeleportSoon:Schedule(timer - 20)
 	warnTeleportNow:Schedule(timer)
