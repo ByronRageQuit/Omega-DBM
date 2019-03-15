@@ -41,12 +41,12 @@ function mod:OnCombatStart(delay)
 	markCounter = 0
 
 	enrageTimer:Start(-delay)
-	timerMeteor:Show(20 - delay)
-	warnMeteorSoon:Schedule(17 - delay)
+	timerMeteor:Show(22 - delay)
+	warnMeteorSoon:Schedule(20 - delay)
 end
 
-local markSpam = 0
 function mod:SPELL_CAST_SUCCESS(args)
+local markSpam = 0
 	if args:IsSpellID(28832, 28833, 28834, 28835) and (GetTime() - markSpam) > 5 then
 		markSpam = GetTime()
 		markCounter = markCounter + 1
@@ -63,7 +63,7 @@ end
 
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(28884, 57467, 24340) then --thane's meteor
-		timerMeteor:Show(15)
-		warnMeteorSoon:Schedule(12)
+		timerMeteor:Show(13)
+		warnMeteorSoon:Schedule(11)
 	end
 end

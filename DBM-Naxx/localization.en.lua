@@ -314,11 +314,11 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	TimerMeteor					= "Next Meteor"
+	TimerMeteor					= "~Next Meteor"
 })
 
 L:SetWarningLocalization({
-	WarningMeteorSoon			= "Meteor in 3 seconds",
+	WarningMeteorSoon			= "Possible Meteor in 2 seconds",
 	WarningMarkSoon				= "Mark %d in 3 seconds",
 	WarningMarkNow				= "Mark %d",
 	SpecialWarningMarkOnPlayer	= "%s: %s"
