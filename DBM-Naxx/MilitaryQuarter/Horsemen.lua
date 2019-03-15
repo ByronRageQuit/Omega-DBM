@@ -21,8 +21,12 @@ local warnMarkNow			= mod:NewAnnounce("WarningMarkNow", 2, 28835)
 local specWarnMarkOnPlayer	= mod:NewSpecialWarning("SpecialWarningMarkOnPlayer", nil, false, true)
 
 local timerMeteor			= mod:NewTimer(15, "TimerMetor", 24340)
+local enrageTimer			= mod:NewBerserkTimer(60)
 
 mod:AddBoolOption("HealthFrame", true)
+
+--events.ScheduleEvent(EVENT_METEOR, urandms(10,15)); first
+--events.ScheduleEvent(EVENT_METEOR, urandms(13,17)); thereafter
 
 mod:SetBossHealthInfo(
 	16064, L.Korthazz,
@@ -36,9 +40,9 @@ local markCounter = 0
 function mod:OnCombatStart(delay)
 	markCounter = 0
 
-	--TODO: Meteor Timer start here
-	timerMeteor:Show(20)
-	warnMeteorSoon:Schedule(17)
+	enrageTimer:Start(-delay)
+	timerMeteor:Show(20 - delay)
+	warnMeteorSoon:Schedule(17 - delay)
 end
 
 local markSpam = 0
