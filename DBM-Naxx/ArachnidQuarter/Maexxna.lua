@@ -9,9 +9,9 @@ mod:RegisterCombat("combat")
 mod:EnableModel()
 
 mod:RegisterEvents(
-	"SPELL_AURA_APPLIED",
-	"SPELL_CAST_SUCCESS"
+	"SPELL_AURA_APPLIED"
 )
+--"SPELL_CAST_SUCCESS"
 
 local warnWebWrap		= mod:NewTargetAnnounce(28622, 2)
 local warnWebSpraySoon	= mod:NewSoonAnnounce(29484, 1)
@@ -38,17 +38,16 @@ function mod:OnCombatEnd(wipe)
 	end
 end
 
+local spraySpam = 0
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(28622) then -- Web Wrap
 		warnWebWrap:Show(args.destName)
 		if args.destName == UnitName("player") then
 			SendChatMessage(L.YellWebWrap, "YELL")
 		end
-	end
-end
+	elseif args:IsSpellID(29484, 54125) and (GetTime() - spraySpam) > 20 then
+		spraySpam = GetTime()
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(29484, 54125) then -- Web Spray
 		warnWebSprayNow:Show()
 		warnWebSpraySoon:Schedule(35.5)
 		timerWebSpray:Start()
@@ -57,3 +56,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerSpider:Start()
 	end
 end
+
+--function mod:SPELL_CAST_SUCCESS(args)
+--	if args:IsSpellID(29484, 54125) then -- Web Spray
+--		warnWebSprayNow:Show()
+--		warnWebSpraySoon:Schedule(35.5)
+--		timerWebSpray:Start()
+--		warnSpidersSoon:Schedule(25)
+--		warnSpidersNow:Schedule(30)
+--		timerSpider:Start()
+--	end
+--end
