@@ -21,7 +21,7 @@ local warnMarkNow			= mod:NewAnnounce("WarningMarkNow", 2, 28835)
 local specWarnMarkOnPlayer	= mod:NewSpecialWarning("SpecialWarningMarkOnPlayer", nil, false, true)
 
 local timerMeteor			= mod:NewTimer(15, "TimerMetor", 24340)
-local enrageTimer			= mod:NewBerserkTimer(60)
+local enrageTimer			= mod:NewBerserkTimer(600)
 
 mod:AddBoolOption("HealthFrame", true)
 
